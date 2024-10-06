@@ -36,6 +36,7 @@
                                 <td class="py-4">{{ $article->is_published ? 'Yes' : 'No' }}</td>
                                 <td class="py-4">{{ $article->created_at }}</td>
                                 <td class="flex py-4 justify-end">
+                                    @can('manage-articles', $article)
                                     <a href="{{route('articles.edit', ['article' => $article->id])}}"
                                        class="bg-gray-500 hover:bg-gray-600 mr-1 py-2 px-3 rounded-md text-white">
                                         Edit
@@ -52,6 +53,7 @@
                                             Delete
                                         </button>
                                     </form>
+                                    @endcan
                                 </td>
                             </tr>
                         @endforeach

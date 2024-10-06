@@ -6,6 +6,7 @@ use App\Http\Requests\UserUpdateRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class UsersController extends Controller
 {
@@ -14,10 +15,6 @@ class UsersController extends Controller
      */
     public function index()
     {
-        if (!Auth::user()->is_admin) {
-            return response('Unauthorized.', 401);
-        }
-
         return view('users.index', [
             'users' => User::all(),
         ]);
