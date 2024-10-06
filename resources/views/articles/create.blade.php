@@ -15,7 +15,7 @@
 
                         <div>
                             <x-input-label for="title" :value="__('Title')" />
-                            <x-text-input id="title" name="title" type="text" class="mt-1 block w-full" :value="old('title')" required autofocus autocomplete="title" />
+                            <x-text-input id="title" name="title" type="text" class="mt-1 block w-full" :value="old('title')" required autofocus />
                             <x-input-error class="mt-2" :messages="$errors->get('title')" />
                         </div>
 
@@ -26,7 +26,7 @@
                         </div>
                         <div class="flex items-start">
                             <div class="flex items-center h-5">
-                                <input type="hidden" name="is_published" value="0">
+
                                 <input id="is_published" name="is_published" type="checkbox"
                                        value="1" @checked(old('is_published'))
                                        class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mr-2">
