@@ -17,6 +17,7 @@
                         <tr>
                             <th class="text-start">Name</th>
                             <th class="text-start">Email address</th>
+                            <th class="text-start">Admin</th>
                             <th></th>
                         </tr>
                         </thead>
@@ -25,6 +26,8 @@
                             <tr class="border-t-gray-200 border-t">
                                 <td class="py-4">{{$user->name}}</td>
                                 <td class="py-4">{{ $user->email }}</td>
+                                <td class="py-4">{{ $user->is_admin }}</td>
+
                                 <td class="flex py-4 justify-end">
                                     <a href="{{route('users.edit', ['user' => $user->id])}}"
                                        class="bg-gray-500 hover:bg-gray-600 mr-1 py-2 px-3 rounded-md text-white">
