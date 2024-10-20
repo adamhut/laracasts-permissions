@@ -19,7 +19,7 @@
                         {{ __('Articles') }}
                     </x-nav-link>
 
-                    @role('admin')
+                    @role('adMIn')
                     <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.index')">
                         {{ __('Users') }}
                     </x-nav-link>
