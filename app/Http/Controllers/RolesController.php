@@ -52,7 +52,9 @@ class RolesController extends Controller
      */
     public function update(RoleUpdateRequest $request, Role $role)
     {
-        $role->update($request->all());
+        $role->update([
+            'name' => $request->input('name'),
+        ]);
 
         return redirect()->route('roles.index');
     }

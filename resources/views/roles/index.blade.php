@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Articles') }}
+            {{ __('Roles') }}
         </h2>
     </x-slot>
 
@@ -22,6 +22,7 @@
                         <thead>
                         <tr>
                             <th class="text-start">Role Name</th>
+                            <th class="text-start">Auth Code</th>
                             <th></th>
                         </tr>
                         </thead>
@@ -29,6 +30,7 @@
                         @foreach($roles as $role)
                             <tr class="border-t-gray-200 border-t">
                                 <td class="py-4">{{$role->name}}</td>
+                                <td class="py-4">{{$role->auth_code}}</td>
 
                                 <td class="flex py-4 justify-end">
 

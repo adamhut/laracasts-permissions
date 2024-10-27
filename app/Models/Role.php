@@ -11,7 +11,8 @@ class Role extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name'
+        'name',
+        'auth_code',
     ];
 
     public function users() : BelongsToMany {

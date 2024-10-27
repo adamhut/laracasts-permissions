@@ -28,6 +28,7 @@ class RoleCreateRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'auth_code' => ['required', 'string', 'max:255', 'unique:roles,auth_code'],
             'name' => ['required', 'string', 'max:255'],
         ];
     }
