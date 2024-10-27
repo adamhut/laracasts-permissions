@@ -33,6 +33,9 @@
                                        class="bg-gray-500 hover:bg-gray-600 mr-1 py-2 px-3 rounded-md text-white">
                                         Edit
                                     </a>
+
+                                    @if (Auth::user()->id !== $user->id)
+
                                     <form
                                         method="post" action="{{ route('users.destroy', ['user' => $user->id]) }}"
                                         onsubmit="return confirm('Are you sure you want to delete this user?')"
@@ -44,6 +47,8 @@
                                             Delete
                                         </button>
                                     </form>
+
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach
