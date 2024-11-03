@@ -32,7 +32,7 @@
                                     </option>
                                 @endforeach
                             </select>
-                            <x-input-error class="mt-2" :messages="$errors->get('roles')" />
+                            <x-input-error class="mt-2" :messages="$errors->get('groups')" />
 
                         </div>
 

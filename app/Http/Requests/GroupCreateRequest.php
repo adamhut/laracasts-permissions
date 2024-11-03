@@ -2,20 +2,22 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Auth\Access\AuthorizationException;
+use App\Models\Article;
+use App\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Validation\Rule;
 
-class RoleUpdateRequest extends FormRequest
+class GroupCreateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return Auth::user()->hasRole('admin');
+        return Gate::allows('manage-users');
     }
 
     /**

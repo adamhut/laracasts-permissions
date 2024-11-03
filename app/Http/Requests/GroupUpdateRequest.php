@@ -2,15 +2,13 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Article;
-use App\Models\User;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Validation\Rule;
 
-class RoleCreateRequest extends FormRequest
+class GroupUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,7 +26,6 @@ class RoleCreateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'auth_code' => ['required', 'string', 'max:255', 'unique:roles,auth_code'],
             'name' => ['required', 'string', 'max:255'],
         ];
     }

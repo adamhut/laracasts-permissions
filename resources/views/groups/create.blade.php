@@ -9,15 +9,9 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-                    <h2 class="text-xl bold">Create Role</h2>
-                    <form method="post" action="{{ route('roles.store') }}" class="mt-6 space-y-6">
+                    <h2 class="text-xl bold">Create Group</h2>
+                    <form method="post" action="{{ route('groups.store') }}" class="mt-6 space-y-6">
                         @csrf
-
-                        <div>
-                            <x-input-label for="auth_code" :value="__('Auth Code')" />
-                            <x-text-input id="auth_code" name="auth_code" type="text" class="mt-1 block w-full" :value="old('auth_code')" required autofocus/>
-                            <x-input-error class="mt-2" :messages="$errors->get('auth_code')" />
-                        </div>
 
                         <div>
                             <x-input-label for="name" :value="__('Name')" />

@@ -25,8 +25,8 @@ class UserUpdateRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
-            'roles' => ['nullable', 'array'],
-            'roles.*' => ['integer', 'exists:roles,id'],
+            'groups' => ['nullable', 'array'],
+            'groups.*' => ['integer', 'exists:groups,id'],
         ];
     }
 
@@ -35,9 +35,9 @@ class UserUpdateRequest extends FormRequest
             if ($this->user()->id === $this->route('user')->id) {
                 $adminRoleId = \App\Models\Role::where('name', 'admin')->first()->id;
 
-                if (!in_array($adminRoleId, $this->input('roles', []))) {
+                if (!in_array($adminRoleId, $this->input('groups', []))) {
                     $validator->errors()->add(
-                        'roles',
+                        'groups',
                         'You cannot remove the admin role from yourself.'
                     );
                 }

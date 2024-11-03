@@ -12,7 +12,7 @@
                     <div class="flex justify-between pb-10">
                         <h3 class="bold text-xl">Roles</h3>
                         <div>
-                            <a href="{{ route('roles.create') }}"
+                            <a href="{{ route('groups.create') }}"
                                class="bg-indigo-500 hover:bg-indigo-600 py-2 px-3 rounded-md text-white">
                                 Create
                             </a>
@@ -21,26 +21,24 @@
                     <table class="w-full ">
                         <thead>
                         <tr>
-                            <th class="text-start">Role Name</th>
-                            <th class="text-start">Auth Code</th>
+                            <th class="text-start">Group Name</th>
                             <th></th>
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($roles as $role)
+                        @foreach($groups as $group)
                             <tr class="border-t-gray-200 border-t">
-                                <td class="py-4">{{$role->name}}</td>
-                                <td class="py-4">{{$role->auth_code}}</td>
+                                <td class="py-4">{{$group->name}}</td>
 
                                 <td class="flex py-4 justify-end">
 
-                                    <a href="{{route('roles.edit', ['role' => $role->id])}}"
+                                    <a href="{{route('groups.edit', ['group' => $group->id])}}"
                                        class="bg-gray-500 hover:bg-gray-600 mr-1 py-2 px-3 rounded-md text-white">
                                         Edit
                                     </a>
                                     <form
                                         method="post"
-                                        action="{{ route('roles.destroy', ['role' => $role->id]) }}"
+                                        action="{{ route('groups.destroy', ['group' => $group->id]) }}"
                                         onsubmit="return confirm('Are you sure you want to delete this role?')"
                                     >
                                         @csrf
