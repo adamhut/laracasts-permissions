@@ -24,11 +24,32 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'permissions',
+    ];
+
+    protected $attributes = [
+        'permissions' => '[]',
     ];
 
     public function articles() : HasMany {
         return $this->hasMany(Article::class, 'author_id');
     }
+
+    public function hasPermission(string $permission) : bool {
+        return in_array(strtolower($permission), $this->permissions);
+    }
+
+    public function hasAnyPermission(array $permissions) : bool {
+        $matches = array_intersect(
+            array_map('strtolower', $permissions)
+            , $this->permissions);
+
+        return !empty($matches);
+    }
+
+
+
+
 
     public function roles() : BelongsToMany {
         return $this->belongsToMany(Role::class);
@@ -76,6 +97,7 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'permissions' => 'array'
         ];
     }
 }
