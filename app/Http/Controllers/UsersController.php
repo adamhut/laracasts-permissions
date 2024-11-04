@@ -36,8 +36,12 @@ class UsersController extends Controller
      */
     public function update(UserUpdateRequest $request, User $user)
     {
-        $user->update($request->all());
+        $permissions = Permission::whereIn('id', $request->permissions)->get();
 
+        $user->update([
+            'name' => $request->input('name'),
+            'permissions' => $permissions->pluck('auth_code'),
+        ]);
 
         return redirect()->route('users.index');
     }

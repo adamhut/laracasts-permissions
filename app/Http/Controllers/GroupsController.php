@@ -35,7 +35,11 @@ class GroupsController extends Controller
      */
     public function store(GroupCreateRequest $request)
     {
-        Group::create($request->all());
+        $group = Group::create([
+            'name' => $request->input('name'),
+        ]);
+
+        $group->permissions()->sync($request->input('permissions'));
 
         return redirect()->route('groups.index');
     }

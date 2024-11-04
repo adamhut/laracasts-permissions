@@ -19,7 +19,21 @@
                             <x-input-error class="mt-2" :messages="$errors->get('name')" />
                         </div>
 
+                        <div>
+                            <x-input-label for="permissions" :value="__('Permissions')" />
 
+                            <select name="permissions[]" id="permissions"
+                                    class="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
+                                    multiple>
+                                @foreach ($permissions as $permission)
+                                    <option value="{{ $permission->id }}">
+                                        {{ $permission->description }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            <x-input-error class="mt-2" :messages="$errors->get('groups')" />
+
+                        </div>
 
                         <div class="flex items-center gap-4">
                             <x-primary-button>{{ __('Save') }}</x-primary-button>
