@@ -25,23 +25,23 @@ class UserUpdateRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
-            'groups' => ['nullable', 'array'],
-            'groups.*' => ['integer', 'exists:groups,id'],
+            'permissions' => ['nullable', 'array'],
+            'permissions.*' => ['integer', 'exists:permissions,id'],
         ];
     }
 
-    public function withValidator($validator) {
-        $validator->after(function ($validator) {
-            if ($this->user()->id === $this->route('user')->id) {
-                $adminRoleId = \App\Models\Role::where('name', 'admin')->first()->id;
-
-                if (!in_array($adminRoleId, $this->input('groups', []))) {
-                    $validator->errors()->add(
-                        'groups',
-                        'You cannot remove the admin role from yourself.'
-                    );
-                }
-            }
-        });
-    }
+//    public function withValidator($validator) {
+//        $validator->after(function ($validator) {
+//            if ($this->user()->id === $this->route('user')->id) {
+//                $adminRoleId = \App\Models\Role::where('name', 'admin')->first()->id;
+//
+//                if (!in_array($adminRoleId, $this->input('groups', []))) {
+//                    $validator->errors()->add(
+//                        'roles',
+//                        'You cannot remove the admin role from yourself.'
+//                    );
+//                }
+//            }
+//        });
+//    }
 }

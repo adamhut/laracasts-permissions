@@ -23,12 +23,12 @@
                         <div>
                             <x-input-label for="roles" :value="__('Roles')" />
 
-                            <select name="roles[]" id="roles"
+                            <select name="permissions[]" id="permissions"
                                     class="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
                                     multiple>
-                                @foreach ($roles as $role)
-                                    <option value="{{ $role->id }}" {{ $user->hasRole($role->auth_code) ? 'selected' : '' }}>
-                                        {{ $role->name }}
+                                @foreach ($permissions as $permission)
+                                    <option value="{{ $permission->id }}" {{ $user->hasPermission($permission->auth_code) ? 'selected' : '' }}>
+                                        {{ $permission->description }}
                                     </option>
                                 @endforeach
                             </select>
