@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\GroupCreateRequest;
 use App\Http\Requests\GroupUpdateRequest;
 use App\Models\Group;
+use App\Models\Permission;
 
 
 class GroupsController extends Controller
@@ -24,7 +25,9 @@ class GroupsController extends Controller
      */
     public function create()
     {
-        return view('groups.create');
+        return view('groups.create', [
+            'permissions' => Permission::all(),
+        ]);
     }
 
     /**
@@ -44,6 +47,7 @@ class GroupsController extends Controller
     {
         return view('groups.edit', [
             'group' => $group,
+            'permissions' => Permission::all(),
         ]);
     }
 
@@ -55,6 +59,8 @@ class GroupsController extends Controller
         $group->update([
             'name' => $request->input('name'),
         ]);
+
+        $group->permissions()->sync($request->input('permissions', []));
 
         return redirect()->route('groups.index');
     }

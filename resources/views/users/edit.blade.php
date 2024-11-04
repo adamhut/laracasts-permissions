@@ -21,7 +21,7 @@
                         </div>
 
                         <div>
-                            <x-input-label for="roles" :value="__('Roles')" />
+                            <x-input-label for="permissions" :value="__('Permissions')" />
 
                             <select name="permissions[]" id="permissions"
                                     class="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"

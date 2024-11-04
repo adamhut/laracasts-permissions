@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Roles') }}
+            {{ __('Groups') }}
         </h2>
     </x-slot>
 
@@ -39,7 +39,7 @@
                                     <form
                                         method="post"
                                         action="{{ route('groups.destroy', ['group' => $group->id]) }}"
-                                        onsubmit="return confirm('Are you sure you want to delete this role?')"
+                                        onsubmit="return confirm('Are you sure you want to delete this group?')"
                                     >
                                         @csrf
                                         @method('delete')

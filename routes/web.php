@@ -31,7 +31,7 @@ Route::middleware('auth')->group(function () {
     Route::middleware('can:manage-users')->group(function() {
         Route::resource('users', UsersController::class)->except(['show', 'create', 'store']);
         Route::resource('permissions', PermissionsController::class)->except(['show']);
-        
+
     });
 });
 
