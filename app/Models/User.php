@@ -35,16 +35,34 @@ class User extends Authenticatable
         return $this->hasMany(Article::class, 'author_id');
     }
 
+    public function getAllPermissions() {
+        if (Auth::user()->id === $this->id && Context::hasHidden('permissions')) {
+            return Context::getHidden('permissions');
+        }
+
+        $groupPermissions = $this
+            ->groups()
+            ->with('permissions')
+            ->get()
+            ->pluck('permissions')
+            ->flatten()
+            ->pluck('auth_code');
+
+        $permissions = collect($this->permissions);
+
+        return $groupPermissions->merge($permissions)->unique()->map(function($item) {
+            return strtolower($item);
+        });
+    }
+
     public function hasPermission(string $permission) : bool {
-        return in_array(strtolower($permission), $this->permissions);
+        return $this->getAllPermissions()->contains(strtolower($permission));
     }
 
     public function hasAnyPermission(array $permissions) : bool {
-        $matches = array_intersect(
-            array_map('strtolower', $permissions)
-            , $this->permissions);
+        $perms = array_map('strtolower', $permissions);
 
-        return !empty($matches);
+        return $this->getAllPermissions()->intersect($perms)->isNotEmpty();
     }
 
     public function groups() : BelongsToMany {
