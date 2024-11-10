@@ -21,6 +21,22 @@
                         </div>
 
                         <div>
+                            <x-input-label for="groups" :value="__('Groups')" />
+
+                            <select name="groups[]" id="groups"
+                                    class="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
+                                    multiple>
+                                @foreach ($groups as $group)
+                                    <option value="{{ $group->id }}" {{ $user->groups->contains($group) ? 'selected' : '' }}>
+                                        {{ $group->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            <x-input-error class="mt-2" :messages="$errors->get('groups')" />
+
+                        </div>
+
+                        <div>
                             <x-input-label for="permissions" :value="__('Permissions')" />
 
                             <select name="permissions[]" id="permissions"
@@ -32,7 +48,7 @@
                                     </option>
                                 @endforeach
                             </select>
-                            <x-input-error class="mt-2" :messages="$errors->get('groups')" />
+                            <x-input-error class="mt-2" :messages="$errors->get('permissions')" />
 
                         </div>
 

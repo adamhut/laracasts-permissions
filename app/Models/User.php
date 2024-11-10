@@ -47,34 +47,8 @@ class User extends Authenticatable
         return !empty($matches);
     }
 
-
-
-
-
-    public function roles() : BelongsToMany {
-        return $this->belongsToMany(Role::class);
-    }
-
-    public function hasRole(string $role) : bool {
-
-        if (Auth::user()->id === $this->id && Context::hasHidden('roles')) {
-            return in_array(strtolower($role), Context::getHidden('roles'));
-        }
-
-        return $this->roles->contains('auth_code', $role);
-    }
-
-    public function hasAnyRole(array $roles) : bool {
-
-        if (Auth::user()->id === $this->id && Context::hasHidden('roles')) {
-            $matches = array_intersect(
-                array_map('strtolower', $roles)
-                , Context::getHidden('roles'));
-
-            return !empty($matches);
-        }
-
-        return $this->roles()->whereIn('auth_code', $roles)->exists();
+    public function groups() : BelongsToMany {
+        return $this->belongsToMany(Group::class);
     }
 
     /**

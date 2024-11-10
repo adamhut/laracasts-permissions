@@ -17,11 +17,7 @@ class LoadRolesMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::check()) {
-            Context::addHidden('groups',
-                array_map('strtolower', Auth::user()->roles->pluck('auth_code')->toArray())
-            );
-        }
+
 
         return $next($request);
     }
