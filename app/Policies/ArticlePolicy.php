@@ -32,6 +32,10 @@ class ArticlePolicy
      */
     public function create(User $user): Response
     {
+        if ($user->hasPermission('article:create:deny')) {
+            return Response::denyAsNotFound();
+        }
+
         return $user->hasPermission('article:create') ?
             Response::allow() :
             Response::denyAsNotFound();
@@ -42,11 +46,17 @@ class ArticlePolicy
      */
     public function update(User $user, Article $article): Response
     {
-        if ($user->hasPermission('article:update-any')) {
-            return Response::allow();
+        if ($user->didNotWrite($article)) {
+            if ($user->hasPermission('article:update-any:deny')) {
+                return Response::denyAsNotFound();
+            }
+
+            return $user->hasPermission('article:update-any') ?
+                Response::allow() :
+                Response::denyAsNotFound();
         }
 
-        return $user->hasPermission('article:update') && $user->id === $article->author_id ?
+        return $user->hasPermission('article:update') ?
             Response::allow() :
             Response::denyAsNotFound();
     }
@@ -56,11 +66,17 @@ class ArticlePolicy
      */
     public function delete(User $user, Article $article): Response
     {
-        if ($user->hasPermission('article:delete-any')) {
-            return Response::allow();
+        if ($user->didNotWrite($article)) {
+            if ($user->hasPermission('article:delete-any:deny')) {
+                return Response::denyAsNotFound();
+            }
+
+            return $user->hasPermission('article:delete-any') ?
+                Response::allow() :
+                Response::denyAsNotFound();
         }
 
-        return $user->hasPermission('article:delete') && $user->id === $article->author_id ?
+        return $user->hasPermission('article:delete') ?
             Response::allow() :
             Response::denyAsNotFound();
     }
