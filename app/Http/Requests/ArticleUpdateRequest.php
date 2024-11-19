@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\ArticleAbilities;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Http\FormRequest;
@@ -15,7 +16,7 @@ class ArticleUpdateRequest extends FormRequest
     public function authorize(): bool
     {
         $article = $this->route('article');
-        $response = Gate::inspect('update', $article);
+        $response = Gate::inspect(ArticleAbilities::UPDATE, $article);
 
         if ($response->allowed()) {
             return true;
