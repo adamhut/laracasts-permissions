@@ -18,8 +18,6 @@ class AppServiceProvider extends ServiceProvider
 
             return $user->hasRole('admin') || $user->hasRole('editor') ||$user->hasRole('author') ;
             // return $user->is_admin;
-
-
         });
 
         Gate::define('manage-articles', function(User $user, Article $article) {
