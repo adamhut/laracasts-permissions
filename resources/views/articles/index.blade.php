@@ -11,12 +11,15 @@
                 <div class="p-6 text-gray-900">
                     <div class="flex justify-between pb-10">
                         <h3 class="bold text-xl">Articles</h3>
-                        <div>
-                            <a href="{{ route('articles.create') }}"
-                               class="bg-indigo-500 hover:bg-indigo-600 py-2 px-3 rounded-md text-white">
-                                Create
-                            </a>
-                        </div>
+
+                        @role('admin')
+                            <div>
+                                <a href="{{ route('articles.create') }}"
+                                class="bg-indigo-500 hover:bg-indigo-600 py-2 px-3 rounded-md text-white">
+                                    Create
+                                </a>
+                            </div>
+                        @endrole
                     </div>
                     <table class="w-full ">
                         <thead>

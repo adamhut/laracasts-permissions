@@ -2,9 +2,10 @@
 
 namespace App\Providers;
 
-use App\Models\Article;
 use App\Models\User;
+use App\Models\Article;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -24,6 +25,16 @@ class AppServiceProvider extends ServiceProvider
             return ($user->hasRole('admin') || $user->hasRole('editor')) ||
             ($user->hasRole('author') && $user->id === $article->author_id) ;
         });
+
+
+        Blade::directive('role', function ($expression) {
+            return "<?php if(auth()->user()->hasAnyRole([$expression])) : ?>";
+        });
+
+        Blade::directive('endrole', function ($expression) {
+            return "<?php endif; ?>";
+        });
+
     }
 
     /**
