@@ -44,6 +44,7 @@
                                        class="bg-gray-500 hover:bg-gray-600 mr-1 py-2 px-3 rounded-md text-white">
                                         Edit
                                     </a>
+
                                     <form
                                         method="post"
                                         action="{{ route('articles.destroy', ['article' => $article->id]) }}"

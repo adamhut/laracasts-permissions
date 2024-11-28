@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Context;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -64,7 +65,7 @@ class User extends Authenticatable
 
     public function hasRole(string $role):bool
     {
-        if (Context::hasHidden('roles')) {
+        if (Auth::user()->id == $this->id && Context::hasHidden('roles')) {
             return in_array(strtolower($role), Context::getHidden('roles'));
         }
 
@@ -74,7 +75,7 @@ class User extends Authenticatable
 
     public function hasAnyRole(array $roles):bool
     {
-        if (Context::hasHidden('roles')) {
+        if (Auth::user()->id == $this->id && Context::hasHidden('roles')) {
             $matches = array_intersect(
                 array_map('strtolower',$roles),
                 Context::getHidden('roles')

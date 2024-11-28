@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\UserUpdateRequest;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use App\Http\Requests\UserUpdateRequest;
 
 class UsersController extends Controller
 {
@@ -26,7 +27,8 @@ class UsersController extends Controller
     public function edit(User $user)
     {
         return view('users.edit', [
-            'user' => $user
+            'user' => $user,
+            'roles' => Role::all()
         ]);
     }
 
@@ -37,6 +39,8 @@ class UsersController extends Controller
     {
         $user->update($request->all());
 
+        $user->roles()->sync($request->roles);
+
         return redirect()->route('users.index');
     }
 
@@ -45,6 +49,11 @@ class UsersController extends Controller
      */
     public function destroy(User $user)
     {
+        if (Auth::user()->id == $user->id) {
+            abort(403);
+        }
+
+
         $user->delete();
 
         return redirect()->route('users.index');

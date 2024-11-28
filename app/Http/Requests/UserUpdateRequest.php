@@ -2,9 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Role;
 use App\Models\User;
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Illuminate\Foundation\Http\FormRequest;
 
 class UserUpdateRequest extends FormRequest
 {
@@ -25,14 +26,30 @@ class UserUpdateRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
-            'email' => [
-                'required',
-                'string',
-                'lowercase',
-                'email',
-                'max:255',
-                Rule::unique(User::class)->ignore($this->user()->id),
-            ],
+            'roles' => ['nullable','array'],
+            'roles.*' => ['integer', 'exists:roles,id'],
+            // 'email' => [
+            //     'required',
+            //     'string',
+            //     'lowercase',
+            //     'email',
+            //     'max:255',
+            //     Rule::unique(User::class)->ignore($this->user()->id),
+            // ],
         ];
     }
+
+
+    public function withValidator($validator){
+        $validator->after(function ($validator) {
+            if (!$this->user()->id === $this->route('user')->id) {
+                $adminRoleId = Role::where('name','admin')->first()->id;
+
+                if( !in_array($adminRoleId,$this->input('roles',[]))){
+                    $validator->errors()->add('roles','You can not remove admin role from your slef');
+                }
+            }
+        })        ;
+    }
+
 }
