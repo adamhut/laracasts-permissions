@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Article extends Model
 {
@@ -23,4 +25,15 @@ class Article extends Model
     public function author(): BelongsTo {
         return $this->belongsTo(User::class, 'author_id');
     }
+
+    public function scopeVisibleTo(Builder $query, User $user)
+    {
+        if (Gate::allows('viewAny', Article::class)) {
+            return $query;
+        }
+
+
+        return $query->where('author_id', $user->id);
+    }
+
 }

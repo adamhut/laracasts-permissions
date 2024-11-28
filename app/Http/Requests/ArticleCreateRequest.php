@@ -3,8 +3,11 @@
 namespace App\Http\Requests;
 
 use App\Models\User;
-use Illuminate\Foundation\Http\FormRequest;
+use App\Models\Article;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Foundation\Http\FormRequest;
 
 class ArticleCreateRequest extends FormRequest
 {
@@ -13,7 +16,13 @@ class ArticleCreateRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        $response = Gate::inspect('create', Article::class);
+
+        if ($response->allowed()) {
+            return true;
+        }
+
+        throw new ModelNotFoundException();
     }
 
     /**

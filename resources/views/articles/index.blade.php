@@ -12,14 +12,14 @@
                     <div class="flex justify-between pb-10">
                         <h3 class="bold text-xl">Articles</h3>
 
-                        @role('admin')
+                        @can('create', App\Models\Article::class)
                             <div>
                                 <a href="{{ route('articles.create') }}"
                                 class="bg-indigo-500 hover:bg-indigo-600 py-2 px-3 rounded-md text-white">
                                     Create
                                 </a>
                             </div>
-                        @endrole
+                        @endcan
                     </div>
                     <table class="w-full ">
                         <thead>

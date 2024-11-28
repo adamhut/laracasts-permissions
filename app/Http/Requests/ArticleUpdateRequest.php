@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Gate;
 
@@ -15,7 +17,18 @@ class ArticleUpdateRequest extends FormRequest
         $article = $this->route('article');
 
         // return Gate::allows('manage-articles', $article);
-        return Gate::allows('update', $article);
+
+        $response = Gate::inspect('update', $article);
+
+        if ($response->allowed()) {
+            return true;
+        }
+
+        throw new ModelNotFoundException();
+        // this will get the message from the policy
+        // throw new AuthorizationException($response->message());
+
+        // return Gate::allows('update', $article);
     }
 
     /**
