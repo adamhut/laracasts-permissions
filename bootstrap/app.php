@@ -13,6 +13,10 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         //
 
+        $middleware->appendToGroup('web',
+            \App\Http\Middleware\LoadRolesMiddleware::class
+        );
+
         $middleware->alias([
             'role', \App\Http\Middleware\RoleAccessMiddleware::class
         ]);

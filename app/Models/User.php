@@ -3,11 +3,12 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Context;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class User extends Authenticatable
 {
@@ -63,11 +64,25 @@ class User extends Authenticatable
 
     public function hasRole(string $role):bool
     {
+        if (Context::hasHidden('roles')) {
+            return in_array(strtolower($role), Context::getHidden('roles'));
+        }
+
+
         return $this->roles->contains('name', $role);
     }
 
     public function hasAnyRole(array $roles):bool
     {
+        if (Context::hasHidden('roles')) {
+            $matches = array_intersect(
+                array_map('strtolower',$roles),
+                Context::getHidden('roles')
+            );
+
+            return !empty($matches);
+        }
+
         return $this->roles->whereIn('name', $roles)->exists();
     }
 }
