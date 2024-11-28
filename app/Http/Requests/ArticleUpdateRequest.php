@@ -14,7 +14,8 @@ class ArticleUpdateRequest extends FormRequest
     {
         $article = $this->route('article');
 
-        return Gate::allows('manage-articles', $article);
+        // return Gate::allows('manage-articles', $article);
+        return Gate::allows('update', $article);
     }
 
     /**
