@@ -45,7 +45,7 @@ class UserUpdateRequest extends FormRequest
             if (!$this->user()->id === $this->route('user')->id) {
                 $adminRoleId = Role::where('name','admin')->first()->id;
 
-                if( !in_array($adminRoleId,$this->input('roles',[]))){
+                if ( !in_array($adminRoleId,$this->input('roles',[]))){
                     $validator->errors()->add('roles','You can not remove admin role from your slef');
                 }
             }

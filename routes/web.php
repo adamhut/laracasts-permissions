@@ -1,10 +1,11 @@
 <?php
 
-use App\Http\Controllers\ArticlesController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\UsersController;
 use App\Models\Article;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\RolesController;
+use App\Http\Controllers\UsersController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ArticlesController;
 
 Route::get('/', function () {
     return view('home', [
@@ -30,8 +31,10 @@ Route::middleware('auth')->group(function () {
     // Route::middleware('can:admin-access')
         // ->resource('users', UsersController::class)->except(['show', 'create', 'store']);
 
-    Route::middleware(['role:admin'])
-        ->resource('users', UsersController::class)->except(['show', 'create', 'store']);
+    Route::middleware(['role:admin'])->group(function () {
+        Route::resource('users', UsersController::class)->except(['show', 'create', 'store']);
+        Route::resource('roles', RolesController::class)->except('show');
+    });
 
 
 
