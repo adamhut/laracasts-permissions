@@ -26,12 +26,12 @@ Route::middleware('auth')->group(function () {
 
     // Route::resource('articles', ArticlesController::class)->except('show');
 
-    Route::middleware('role:admin.author,editor')
+    Route::middleware('can:manage-articles,App\Models\Article')
     ->resource('articles', ArticlesController::class)->except('show');
     // Route::middleware('can:admin-access')
-        // ->resource('users', UsersController::class)->except(['show', 'create', 'store']);
+    // ->resource('users', UsersController::class)->except(['show', 'create', 'store']);
 
-    Route::middleware(['role:admin'])->group(function () {
+    Route::middleware(['can:manage-users'])->group(function () {
         Route::resource('users', UsersController::class)->except(['show', 'create', 'store']);
         Route::resource('roles', RolesController::class)->except('show');
     });

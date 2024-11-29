@@ -20,11 +20,11 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-        // 'is_admin',
+    protected $guarded = [];
+
+
+    protected $attributes = [
+        'permissions' => '[]'
     ];
 
     public function articles() : HasMany {
@@ -51,6 +51,7 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'permissions' => 'array',
             // 'is_admin' => 'boolean',
         ];
     }
@@ -86,4 +87,20 @@ class User extends Authenticatable
 
         return $this->roles->whereIn('auth_code', $roles)->exists();
     }
+
+
+    public function hasPermission(string $permission):bool
+    {
+        return in_array(strtolower($permission), $this->permissions);
+    }
+
+    public function hasAnyPermission(array $permissions):bool
+    {
+        $matches = array_intersect(
+                array_map('strtolower',$permissions),
+                $this->permissions
+            );
+        return !empty($matches);
+    }
+
 }
