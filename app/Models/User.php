@@ -56,37 +56,35 @@ class User extends Authenticatable
         ];
     }
 
+    // public function roles():BelongsToMany
+    // {
+    //     return $this->belongsToMany(Role::class)->withTimestamps();
+    // }
 
 
-    public function roles():BelongsToMany
-    {
-        return $this->belongsToMany(Role::class)->withTimestamps();
-    }
+    // public function hasRole(string $role):bool
+    // {
+    //     if (Auth::user()->id == $this->id && Context::hasHidden('roles')) {
+    //         return in_array(strtolower($role), Context::getHidden('roles'));
+    //     }
 
 
-    public function hasRole(string $role):bool
-    {
-        if (Auth::user()->id == $this->id && Context::hasHidden('roles')) {
-            return in_array(strtolower($role), Context::getHidden('roles'));
-        }
+    //     return $this->roles->contains('auth_code', $role);
+    // }
 
+    // public function hasAnyRole(array $roles):bool
+    // {
+    //     if (Auth::user()->id == $this->id && Context::hasHidden('roles')) {
+    //         $matches = array_intersect(
+    //             array_map('strtolower',$roles),
+    //             Context::getHidden('roles')
+    //         );
 
-        return $this->roles->contains('auth_code', $role);
-    }
+    //         return !empty($matches);
+    //     }
 
-    public function hasAnyRole(array $roles):bool
-    {
-        if (Auth::user()->id == $this->id && Context::hasHidden('roles')) {
-            $matches = array_intersect(
-                array_map('strtolower',$roles),
-                Context::getHidden('roles')
-            );
-
-            return !empty($matches);
-        }
-
-        return $this->roles->whereIn('auth_code', $roles)->exists();
-    }
+    //     return $this->roles->whereIn('auth_code', $roles)->exists();
+    // }
 
 
     public function hasPermission(string $permission):bool
@@ -101,6 +99,12 @@ class User extends Authenticatable
                 $this->permissions
             );
         return !empty($matches);
+    }
+
+
+    public function groups():BelongsToMany
+    {
+        return $this->belongsToMany(Group::class);
     }
 
 }

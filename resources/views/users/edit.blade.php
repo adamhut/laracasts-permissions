@@ -35,6 +35,41 @@
                                 @endforeach
                             </select>
                         </div>
+
+                        <div>
+                            <x-input-label for="permissions" :value="__('Permissions')" />
+
+                            <select name="permissions[]" id="permissions"
+                                    class="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
+                                    multiple>
+                                @foreach ($permissions as $permission)
+                                    <option value="{{ $permission->id }}" {{ $user->hasPermission($permission->auth_code) ? 'selected' : '' }}>
+                                        {{ $permission->description }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            <x-input-error class="mt-2" :messages="$errors->get('groups')" />
+
+                        </div>
+
+                        <div>
+                            <x-input-label for="groups" :value="__('Groups')" />
+
+                            <select name="groups[]" id="groups"
+                                    class="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
+                                    multiple>
+                                @foreach ($groups as $group)
+                                    <option value="{{ $group->id }}" {{ $user->groups->contains($group) ? 'selected' : '' }}>
+                                        {{ $group->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            <x-input-error class="mt-2" :messages="$errors->get('groups')" />
+
+                        </div>
+
+
+
                         {{-- <div>
                             <x-input-label for="email" :value="__('Email')" />
                             <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email', $user->email)" required autocomplete="username" />

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Role;
 use App\Models\User;
+use App\Models\Group;
+use App\Models\Permission;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -28,7 +30,8 @@ class UsersController extends Controller
     {
         return view('users.edit', [
             'user' => $user,
-            'roles' => Role::all()
+            'roles' => Role::all(),
+            'groups' => Group::all()
         ]);
     }
 
@@ -37,9 +40,18 @@ class UsersController extends Controller
      */
     public function update(UserUpdateRequest $request, User $user)
     {
-        $user->update($request->all());
+        $permissions = Permission::whereIn('id',$request->permissions)->get();
 
-        $user->roles()->sync($request->roles);
+
+        // $user->update($request->all());
+        $user->update([
+            'name' => $request->name,
+            'permissions' => $permissions->pluck('auth_code'),
+        ]);
+
+        $user->groups()->sync($request->groups);
+
+        // $user->roles()->sync($request->roles);
 
         return redirect()->route('users.index');
     }
