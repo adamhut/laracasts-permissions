@@ -14,7 +14,7 @@ return Application::configure(basePath: dirname(__DIR__))
         //
 
         $middleware->appendToGroup('web',
-            \App\Http\Middleware\LoadRolesMiddleware::class
+            \App\Http\Middleware\LoadPermissionsMiddleware::class
         );
 
         $middleware->alias([

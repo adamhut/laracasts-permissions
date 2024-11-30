@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Context;
 use Symfony\Component\HttpFoundation\Response;
 
-class LoadRolesMiddleware
+class LoadPermissionsMiddleware
 {
     /**
      * Handle an incoming request.
@@ -22,6 +22,11 @@ class LoadRolesMiddleware
         //         array_map('strtolower', Auth::user()->roles->pluck('auth_code')->toArray())
         //     );
         // }
+
+
+        if (Auth::check()) {
+            Context::addHidden('permissions', Auth::user()->getAllPermissions());
+        }
 
 
         return $next($request);

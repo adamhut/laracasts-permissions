@@ -89,16 +89,45 @@ class User extends Authenticatable
 
     public function hasPermission(string $permission):bool
     {
+        return $this->getAllPermissions()->contains(strtolower($permission));
+
+
         return in_array(strtolower($permission), $this->permissions);
     }
 
+    public function getAllPermissions()
+    {
+        if (Auth::user()->id == $this->id && Context::hasHidden('permissions')) {
+            return Context::getHidden('permissions');
+        }
+
+        $groupPermssions = $this
+            ->groups()
+            ->with('permissions')
+            ->get()
+            ->pluck('permissions')
+            ->flatten()
+            ->pluck('auth_code');
+
+        $permissions = collect($this->permissions);
+
+        return $groupPermssions->merge($permissions)->unique()->map(function($permission){
+            return strtolower($permission);
+        });
+    }
+
+
     public function hasAnyPermission(array $permissions):bool
     {
-        $matches = array_intersect(
-                array_map('strtolower',$permissions),
-                $this->permissions
-            );
-        return !empty($matches);
+        $perms = array_map('strtolower', $permissions);
+
+        return $this->getAllPermissions()->intersect($perms)->isNotEmpty();
+
+        // $matches = array_intersect(
+        //         array_map('strtolower',$permissions),
+        //         $this->permissions
+        //     );
+        // return !empty($matches);
     }
 
 
