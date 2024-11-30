@@ -136,4 +136,15 @@ class User extends Authenticatable
         return $this->belongsToMany(Group::class);
     }
 
+
+    public function wrote(Article $article):bool
+    {
+        return $this->id === $article->author_id;
+    }
+
+     public function didNotWrite(Article $article):bool
+    {
+        return $this->id !== $article->author_id;
+    }
+
 }
