@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\ArticleAbilities;
 use App\Models\Article;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -29,7 +30,8 @@ class ArticlesController extends Controller
      */
     public function create()
     {
-        Gate::authorize('create', Article::class);
+        // Gate::authorize('create', Article::class);
+        Gate::authorize(ArticleAbilities::CREATE, Article::class);
 
         return view('articles.create');
     }
@@ -51,7 +53,9 @@ class ArticlesController extends Controller
      */
     public function edit(Article $article)
     {
-        Gate::authorize('update', $article);
+        // Gate::authorize('update', $article);
+
+        Gate::authorize(ArticleAbilities::UPDATE, Article::class);
 
         // if ( Gate::denies('update', $article)) {
         //     abort(403);
@@ -78,7 +82,9 @@ class ArticlesController extends Controller
      */
     public function destroy(Article $article)
     {
-        Gate::authorize('delete', $article);
+        // Gate::authorize('delete', $article);
+
+        Gate::authorize(ArticleAbilities::DELETE, Article::class);
 
         $article->delete();
 

@@ -18,7 +18,7 @@ class ArticleUpdateRequest extends FormRequest
 
         // return Gate::allows('manage-articles', $article);
 
-        $response = Gate::inspect('update', $article);
+        $response = Gate::inspect(\App\ArticleAbilities::UPDATE, $article);
 
         if ($response->allowed()) {
             return true;

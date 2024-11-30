@@ -16,7 +16,7 @@ class ArticleCreateRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        $response = Gate::inspect('create', Article::class);
+        $response = Gate::inspect(\App\ArticleAbilities::CREATE, Article::class);
 
         if ($response->allowed()) {
             return true;
